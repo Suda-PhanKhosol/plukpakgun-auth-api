@@ -1,3 +1,4 @@
+//#region  global variable / declare parameter
 //ให้ API เรียกข้าม Domaiin ได้ ไม่มีก็จะใช้ได้แค่ในเครื่องเรา
 var express = require("express");
 var cors = require("cors");
@@ -24,8 +25,9 @@ const connection = mysql.createConnection({
   database: "mydb", //db ของเรา
 });
 
-//http://localhost:3333/register
-//change get to post
+//#endregion
+
+//#region register
 app.post("/register", jsonParser, function (req, res, next) {
   var email = req.body.email;
   var password = req.body.password;
@@ -39,44 +41,86 @@ app.post("/register", jsonParser, function (req, res, next) {
         [email, hash, fname, lname],
         function (err, results, fields) {
           if (err) {
-            res.json({ status: "error", message: err });
+            return res.json({ status: "error", message: err });
           }
-          res.json({ status: "ok" });
+          return res.json({ status: "ok" });
         }
       );
     });
   } catch (err) {
-    res.json({ err });
+    return res.json({ err });
   }
 });
+//#endregion
 
+//#region login
 app.post("/login", jsonParser, function (req, res, next) {
   try {
     connection.execute(
       "SELECT * FROM users WHERE email = ?",
       [req.body.email],
-      function (err, user, fields) {
+      function (err, users, fields) {
         if (err) {
-          res.json({ status: "error", message: err });
-          return;
+          return res.json({ status: "error", message: err });
         }
-        if (user.length === 0) {
-          res.json({ status: "error", message: "no user found" });
-          return;
+        if (users.length === 0) {
+          return res.json({ status: "error", message: "no user found" });
         }
-        res.json({ status: "ok" });
+
+        bcrypt.compare(
+          req.body.password,
+          users[0].password,
+          function (err, isLogin) {
+            if (isLogin) {
+              var token = jwt.sign({ email: users[0] }, secret, {
+                expiresIn: "1h",
+              });
+              return res.json({
+                status: "ok",
+                message: "login success",
+                token,
+              });
+            }
+            //ส่ง token กลับไป
+            else {
+              return res.json({ status: "error", message: "login failed" });
+            }
+          }
+        );
       }
     );
   } catch (err) {
-    res.json({ err });
+    return res.json({ err });
   }
 });
+//#endregion
 
-app.get("/test/:id", jsonParser, function (req, res, next) {
-  res.send(req.params.id);
+//#region authen
+//authen ว่า token ที่ได้จากการ login ตรงไหม ถูกไหม
+app.post("/authen", jsonParser, function (req, res, next) {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    //ตรวจสอบ token ว่าเป็นของใครและตรงไหมถ้าตรงจะ return ข้อมูล token ของคนนั้นๆที่ login ไว้ตอนแรก
+    var decoder = jwt.verify(token, secret);
+    return res.json({ decoder });
+  } catch (err) {
+    return res.json({ status: "error", message: err.message });
+  }
 });
+//#endregion
 
+//#region test
+app.get("/test/:id", jsonParser, function (req, res, next) {
+  return res.send(req.params.id);
+});
+//#endregion
+
+//#region  config port
 // 80 to 3333
+//http://localhost:3333/register
+
 app.listen(3333, function () {
   console.log("CORS-enabled web server listening on port 3333");
 });
+
+//#endregion
