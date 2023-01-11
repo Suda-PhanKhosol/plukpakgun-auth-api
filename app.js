@@ -72,6 +72,10 @@ app.post("/login", jsonParser, function (req, res, next) {
   }
 });
 
+app.get("/test/:id", jsonParser, function (req, res, next) {
+  res.send(req.params.id);
+});
+
 // 80 to 3333
 app.listen(3333, function () {
   console.log("CORS-enabled web server listening on port 3333");
