@@ -120,7 +120,7 @@ app.get("/test/:id", jsonParser, function (req, res, next) {
 //http://localhost:3333/register
 
 app.listen(3333, function () {
-  console.log("CORS-enabled web server listening on port 3333 ss");
+  console.log("CORS-enabled web server listening on port 3333 ");
 });
 
 //#endregion
