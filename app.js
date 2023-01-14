@@ -83,7 +83,7 @@ app.post("/login", jsonParser, function (req, res, next) {
             }
             //ส่ง token กลับไป
             else {
-              return res.json({ status: "error", message: "login failed" });
+              return res.json({ status: "error", message: "Invalid password" });
             }
           }
         );
@@ -101,8 +101,8 @@ app.post("/authen", jsonParser, function (req, res, next) {
   try {
     const token = req.headers.authorization.split(" ")[1];
     //ตรวจสอบ token ว่าเป็นของใครและตรงไหมถ้าตรงจะ return ข้อมูล token ของคนนั้นๆที่ login ไว้ตอนแรก
-    var decoder = jwt.verify(token, secret);
-    return res.json({ decoder });
+    var decoded = jwt.verify(token, secret);
+    return res.json({ status: "ok", decoded });
   } catch (err) {
     return res.json({ status: "error", message: err.message });
   }
