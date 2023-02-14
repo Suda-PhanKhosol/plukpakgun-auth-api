@@ -1,0 +1,317 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Auth API",
+    "version": "1.0.0",
+    "description": "A simple example of a swagger-documented API."
+  },
+  "basePath": "",
+  "schemes": ["http"],
+  "paths": {
+    "/users/getAll": {
+      "get": {
+        "summary": "List of users",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/users/getById/{id}": {
+      "get": {
+        "summary": "Get one user by ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+
+    "/users/register": {
+      "post": {
+        "summary": "Register",
+        "description": "",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User information to register a new user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRegisterRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/users/update/{id}": {
+      "put": {
+        "summary": "Update user",
+        "description": "",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User information to register a new user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRegisterRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/users/delete/{id}": {
+      "delete": {
+        "summary": "Delete user by ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "User login ",
+        "description": "",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User information to register a new user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/userroles/getAll": {
+      "get": {
+        "summary": "List of userroles",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/userroles/getById/{id}": {
+      "get": {
+        "summary": "Get one user role by ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/userroles/insert": {
+      "post": {
+        "summary": "Insert UserRoles",
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User information to register a new user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRoleInsertRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/userroles/update/{id}": {
+      "put": {
+        "summary": "Update user role",
+        "description": "",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User information to register a new user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRoleInsertRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/userroles/delete/{id}": {
+      "delete": {
+        "summary": "Delete user role by ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserRegisterRequest": {
+      "type": "object",
+      "required": [
+        "Email",
+        "Password",
+        "FirstName",
+        "LastName",
+        "CreatedBy",
+        "UpdatedBy",
+        "PhoneNumber"
+      ],
+      "properties": {
+        "Email": {
+          "type": "string"
+        },
+        "Password": {
+          "type": "string"
+        },
+        "FirstName": {
+          "type": "string"
+        },
+        "LastName": {
+          "type": "string"
+        },
+        "CreatedBy": {
+          "type": "string"
+        },
+        "UpdatedBy": {
+          "type": "string"
+        },
+        "PhoneNumber": {
+          "type": "string"
+        },
+        "BirthDate": {
+          "type": "string"
+        }
+      }
+    },
+    "UserLoginRequest": {
+      "type": "object",
+      "required": ["Email", "Password"],
+      "properties": {
+        "Email": {
+          "type": "string"
+        },
+        "Password": {
+          "type": "string"
+        }
+      }
+    },
+    "UserRoleInsertRequest": {
+      "type": "object",
+      "required": ["RoleName", "RoleCode", "CreatedBy", "UpdatedBy"],
+      "properties": {
+        "RoleName": {
+          "type": "string"
+        },
+        "RoleCode": {
+          "type": "string"
+        },
+        "CreatedBy": {
+          "type": "string"
+        },
+        "UpdatedBy": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
